@@ -183,13 +183,13 @@ NIncome.grid(row=2, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 3--------------
 BF2Add = ttk.Button(F2, text='Add',command=AddIncome)
-BF2Add.grid(row=3,column=1,padx=2,pady=5,sticky='w',ipadx=10,ipady=10)
+BF2Add.grid(row=3,column=1,ipadx=10,ipady=10,sticky='w')
 
 BF1Delete = ttk.Button(F2, text="Delete", command=DeleteIncome)
-BF1Delete.grid(row=3,column=2, padx=2, pady=5, sticky='w', ipadx=10, ipady=10)
+BF1Delete.grid(row=3,column=2, ipadx=10, ipady=10,sticky='w')
 
 BF2Delete = ttk.Button(F2, text="Clear",command=ClearIncome)
-BF2Delete.grid(row=3,column=3,padx=2,pady=5,sticky='w',ipadx=10,ipady=10)
+BF2Delete.grid(row=3,column=3,ipadx=10,ipady=10,sticky='w')
 
 # ----------Tree View----------
 TVList_Income = ['Date', 'Title', 'Income']
@@ -200,7 +200,7 @@ TVIncome.grid(row=4,column=0,padx=5,pady=5,sticky='w',columnspan=3)
 #End Tab 2 (Income)
 ########################################################
 #Tab 3 (Summary)
-#----------Row 1-----------------
+#----------Row 0-----------------
 Income_Total_Label = ttk.Label(F3, text='Total Income', font=(None,18))
 Income_Total_Label.grid(row=0, column=0, padx=5, pady=5, sticky='w')
 
@@ -209,7 +209,7 @@ Income_Total = DoubleVar()
 Income_Total_Entry = ttk.Entry(F3, textvariable=Income_Total,font=(None,18),state='disabled')
 Income_Total_Entry.grid(row=0, column=1, padx=5, pady=5, sticky='w')
 
-#---------Row 2------------------
+#---------Row 1------------------
 Expense_Total_Label = ttk.Label(F3, text='Total Expense', font=(None,18))
 Expense_Total_Label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
 
@@ -218,7 +218,7 @@ Expense_Total = DoubleVar()
 Expense_Total_Entry = ttk.Entry(F3, textvariable=Expense_Total,font=(None,18),state='disabled')
 Expense_Total_Entry.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
-#---------Row 3------------------
+#---------Row 2------------------
 Cash_Flow_Label = ttk.Label(F3, text='Cash Flow', font=(None,18))
 Cash_Flow_Label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 
