@@ -3,10 +3,9 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter.ttk import Notebook
 from tkcalendar import DateEntry
+import datetime
 
-# Total_Expense = DoubleVar()
-# Total_Income = DoubleVar()
-# Cash_Flow = DoubleVar()
+today = datetime.date.today()
 
 #btn commands
 def Update_Cash_Flow():
@@ -30,6 +29,22 @@ def AddExpense():
 
     Update_Cash_Flow()
 
+    Title.set('')
+    Expense.set(0)
+    EDate.set_date(today)
+
+def DeleteExpense():
+    selected_row = TVExpense.selection()[0]
+    selected_values = TVExpense.item(selected_row)
+
+    TVExpense.delete(selected_row)
+
+    delta = float(selected_values['values'][2])
+    tempExp = Expense_Total.get()
+    tempExp -= delta
+    Expense_Total.set(tempExp)
+
+    Update_Cash_Flow()
 
 def ClearExpenses():
     TVExpense.delete(*TVExpense.get_children())
@@ -39,8 +54,8 @@ def ClearExpenses():
 
 def AddIncome():
     a = NDate.get()
-    b = NTitle.get()
-    c = float(NIncome.get())
+    b = Right_Title.get()
+    c = float(Income.get())
 
     TVIncome.insert('', 'end', values=[a,b,c])
     tempInc = Income_Total.get()
@@ -48,6 +63,24 @@ def AddIncome():
     Income_Total.set(tempInc)
 
     Update_Cash_Flow()
+    
+    Income.set(0)
+    Right_Title.set('')
+    NDate.set_date(today)
+
+def DeleteIncome():
+    selected_row = TVIncome.selection()[0]
+    selected_values = TVIncome.item(selected_row)
+
+    TVIncome.delete(selected_row)
+
+    delta = float(selected_values['values'][2])
+    tempInc = Income_Total.get()
+    tempInc -= delta
+    Income_Total.set(tempInc)
+
+    Update_Cash_Flow()
+    
 
 def ClearIncome():
     TVIncome.delete(*TVIncome.get_children())
@@ -81,7 +114,7 @@ LDate.grid(row=0, column=0, padx=5, pady=5, sticky='w')
 #use date picker
 #pip install tkcalendar
 EDate = DateEntry(F1, width=19, background='blue', foreground='white', font=(None,18))
-EDate.grid(row=0, column=1, padx=5, pady=5, sticky='w')
+EDate.grid(row=0, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 1--------------
 LTitle = ttk.Label(F1, text='Title', font=(None,18))
@@ -90,7 +123,7 @@ LTitle.grid(row=1, column=0, padx=5, pady=5, sticky='w')
 Title = StringVar()
 
 ETitle = ttk.Entry(F1, textvariable=Title,font=(None,18))
-ETitle.grid(row=1, column=1, padx=5, pady=5, sticky='w')
+ETitle.grid(row=1, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 2--------------
 LExpense = ttk.Label(F1, text='Expense', font=(None,18))
@@ -99,14 +132,17 @@ LExpense.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 Expense = StringVar()
 
 EExpense = ttk.Entry(F1, textvariable=Expense,font=(None,18))
-EExpense.grid(row=2, column=1, padx=5, pady=5, sticky='w')
+EExpense.grid(row=2, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 3--------------
 BF1Add = ttk.Button(F1, text='Add',command=AddExpense)
-BF1Add.grid(row=3,column=1,padx=5,pady=5,sticky='w',ipadx=10,ipady=10)
+BF1Add.grid(row=3,column=1,padx=2,pady=5,sticky='w',ipadx=10,ipady=10)
 
-BF1Delete = ttk.Button(F1, text="Clear",command=ClearExpenses)
-BF1Delete.grid(row=3,column=2,padx=5,pady=5,sticky='w',ipadx=10,ipady=10)
+BF1Delete = ttk.Button(F1, text="Delete", command=DeleteExpense)
+BF1Delete.grid(row=3,column=2, padx=2, pady=5, sticky='w', ipadx=10, ipady=10)
+
+BF1Clear = ttk.Button(F1, text="Clear",command=ClearExpenses)
+BF1Clear.grid(row=3,column=3,padx=2,pady=5,sticky='w',ipadx=10,ipady=10)
 
 # ----------Tree View----------
 TVList = ['Date', 'Title', 'Expense']
@@ -125,7 +161,7 @@ RDate.grid(row=0, column=0, padx=5, pady=5, sticky='w')
 #use date picker
 #pip install tkcalendar
 NDate = DateEntry(F2, width=19, background='blue', foreground='white', font=(None,18))
-NDate.grid(row=0, column=1, padx=5, pady=5, sticky='w')
+NDate.grid(row=0, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 1--------------
 RTitle = ttk.Label(F2, text='Title', font=(None,18))
@@ -134,7 +170,7 @@ RTitle.grid(row=1, column=0, padx=5, pady=5, sticky='w')
 Right_Title = StringVar()
 
 NTitle = ttk.Entry(F2, textvariable=Right_Title,font=(None,18))
-NTitle.grid(row=1, column=1, padx=5, pady=5, sticky='w')
+NTitle.grid(row=1, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 2--------------
 RIncome = ttk.Label(F2, text='Income', font=(None,18))
@@ -143,14 +179,17 @@ RIncome.grid(row=2, column=0, padx=5, pady=5, sticky='w')
 Income = StringVar()
 
 NIncome = ttk.Entry(F2, textvariable=Income,font=(None,18))
-NIncome.grid(row=2, column=1, padx=5, pady=5, sticky='w')
+NIncome.grid(row=2, column=1, padx=5, pady=5, sticky='w', columnspan=2)
 
 # ----------Row 3--------------
 BF2Add = ttk.Button(F2, text='Add',command=AddIncome)
-BF2Add.grid(row=3,column=1,padx=5,pady=5,sticky='w',ipadx=10,ipady=10)
+BF2Add.grid(row=3,column=1,padx=2,pady=5,sticky='w',ipadx=10,ipady=10)
+
+BF1Delete = ttk.Button(F2, text="Delete", command=DeleteIncome)
+BF1Delete.grid(row=3,column=2, padx=2, pady=5, sticky='w', ipadx=10, ipady=10)
 
 BF2Delete = ttk.Button(F2, text="Clear",command=ClearIncome)
-BF2Delete.grid(row=3,column=2,padx=5,pady=5,sticky='w',ipadx=10,ipady=10)
+BF2Delete.grid(row=3,column=3,padx=2,pady=5,sticky='w',ipadx=10,ipady=10)
 
 # ----------Tree View----------
 TVList_Income = ['Date', 'Title', 'Income']
